@@ -42,24 +42,29 @@
       gap:18px;
     }
 
-    /* Logo sits directly on the page background (transparent). 
-       Add visible whitespace below the logo so it never visually touches the next element on any device. */
+    /* Logo presentation updated to match the app's circular grey main-menu look
+       while keeping the page background white. Only this block was changed. */
     .logo {
       width:160px;
-      height:auto;
-      display:block;
-      padding-bottom:18px; /* extra visible whitespace below image */
-      background:transparent; /* ensure no different background color */
+      height:160px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto;
+      border-radius:50%;
+      background:#2f3236;           /* grey main-menu circle like the app */
+      padding:14px;                 /* visible breathing room so the image never appears cropped */
+      box-shadow:0 6px 18px rgba(12,18,23,0.08);
     }
     .logo img{
       width:100%;
-      height:auto;
+      height:100%;
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;          /* ensures the whole artwork is visible */
       display:block;
-      object-fit:contain;      /* preserve full image without cropping */
-      image-rendering:optimizeQuality;
-      /* keep some internal whitespace in case PNG canvas includes tight cropping */
-      padding-bottom:6px;
-      background:transparent;
+      background:transparent;     /* keep the image itself transparent if the PNG supports it */
+      border-radius:50%;          /* preserves round visual when the artwork is circular */
     }
 
     h1{
@@ -120,7 +125,7 @@
 
     @media (min-width:640px){
       h1{font-size:1.6rem}
-      .logo{width:180px;padding-bottom:22px}
+      .logo{width:180px;padding:18px}
     }
 
     @media (prefers-reduced-motion:reduce){
@@ -136,7 +141,7 @@
 
     <header>
       <h1 id="title">Welcome to Button Smasher's official website!</h1>
-      <p class="lead">Fast, fun, and made with care by MASONNET. Your feedback helps us improve the game — thanks for taking a moment.</p>
+      <p class="lead">Everything that is Button Smasher related will be here! This website is currently a work in progress, so watch out for new updates!</p>
     </header>
 
     <nav class="actions" aria-label="Primary links">
