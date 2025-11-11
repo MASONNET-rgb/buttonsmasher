@@ -8,6 +8,7 @@
   <style>
     :root{
       --bg: #ffffff;
+      --logo-bg: #fbfbfd; /* extremely close to white but not fully white */
       --accent: #0b5fff;
       --text: #0b1220;
       --muted: #55606e;
@@ -42,19 +43,22 @@
       gap:18px;
     }
 
-    /* Logo presentation updated to match the app's circular grey main-menu look
-       while keeping the page background white. Only this block was changed. */
+    /* Logo presentation tuned:
+       - background very close to white but not pure white
+       - smaller overall circle and thinner padding so it's less noticeable
+       - still provides breathing room so the image doesn't appear cut off */
     .logo {
-      width:160px;
-      height:160px;
+      width:140px;
+      height:140px;
       display:flex;
       align-items:center;
       justify-content:center;
       margin:0 auto;
       border-radius:50%;
-      background:#2f3236;           /* grey main-menu circle like the app */
-      padding:14px;                 /* visible breathing room so the image never appears cropped */
-      box-shadow:0 6px 18px rgba(12,18,23,0.08);
+      background:var(--logo-bg);
+      padding:8px;                       /* thinner padding */
+      border:1px solid rgba(6,9,12,0.04);/* subtle hairline to separate from page without being obvious */
+      box-shadow:0 4px 10px rgba(12,18,23,0.04);
     }
     .logo img{
       width:100%;
@@ -64,7 +68,8 @@
       object-fit:contain;          /* ensures the whole artwork is visible */
       display:block;
       background:transparent;     /* keep the image itself transparent if the PNG supports it */
-      border-radius:50%;          /* preserves round visual when the artwork is circular */
+      border-radius:50%;
+      padding-bottom:4px;         /* small internal buffer to prevent perceived cropping */
     }
 
     h1{
@@ -125,7 +130,8 @@
 
     @media (min-width:640px){
       h1{font-size:1.6rem}
-      .logo{width:180px;padding:18px}
+      .logo{width:156px;padding:10px}
+      .logo img{padding-bottom:5px}
     }
 
     @media (prefers-reduced-motion:reduce){
