@@ -7,15 +7,14 @@
   <style>
     :root{
       --bg:#ffffff;
-      --card:#f7f8fa;
       --accent:#0b5fff;
       --text:#0b1220;
       --muted:#55606e;
       --radius:12px;
-      --max-width:820px;
+      --max-width:900px;
     }
 
-    /* Reset-ish */
+    /* Reset */
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
@@ -24,137 +23,136 @@
       color:var(--text);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      line-height:1.4;
+      line-height:1.45;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
-      padding:24px;
+      padding:28px 20px;
     }
 
-    .site {
+    .container{
       width:100%;
       max-width:var(--max-width);
-      background:linear-gradient(transparent, transparent); /* intentionally neutral */
-      border-radius:var(--radius);
-      padding:24px;
-      box-shadow:0 6px 18px rgba(6,22,39,0.06);
-    }
-
-    .header {
-      display:flex;
-      gap:20px;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
       text-align:center;
     }
 
-    /* Logo container to avoid cropping while keeping it responsive */
-    .logo-wrap{
-      width:128px;
-      height:128px;
-      border-radius:16px;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--card);
-      flex-shrink:0;
+    /* Logo sits directly on the page (no overlay). Image uses contain to avoid cropping. */
+    .logo {
+      width:140px;
+      height:140px;
+      margin:0 auto 18px;
+      display:block;
     }
-
-    .logo-wrap img{
+    .logo img{
       width:100%;
       height:100%;
-      object-fit:contain; /* ensures no cropping */
+      object-fit:contain;
       display:block;
     }
 
+    header{
+      margin-bottom:18px;
+    }
     h1{
-      font-size:1.25rem;
-      margin-top:8px;
-      color:var(--text);
+      font-size:1.4rem;
+      margin:6px 0 8px;
       font-weight:600;
     }
-
     p.lead{
-      margin-top:8px;
+      margin:0 auto;
+      max-width:68ch;
       color:var(--muted);
-      font-size:0.95rem;
+      font-size:0.96rem;
     }
 
-    .cta {
-      display:flex;
-      justify-content:center;
+    .actions{
       margin-top:18px;
-    }
-
-    /* Link-as-button with accessible focus */
-    .btn-link{
-      -webkit-appearance:none;
-      appearance:none;
-      border:0;
-      background:var(--accent);
-      color:white;
-      padding:12px 18px;
-      font-size:1rem;
-      border-radius:10px;
-      text-decoration:none;
-      display:inline-flex;
-      gap:10px;
+      display:flex;
+      gap:12px;
+      flex-direction:column;
       align-items:center;
       justify-content:center;
+    }
+
+    .link-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      border:0;
+      background:var(--accent);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:10px;
+      font-size:1rem;
       cursor:pointer;
       box-shadow:0 6px 14px rgba(11,95,255,0.12);
+      width:100%;
+      max-width:420px;
     }
-    .btn-link:focus{
+    .link-btn.secondary{
+      background:#0f1724;
+      box-shadow:0 6px 14px rgba(6,9,15,0.06);
+    }
+    .link-btn:focus{
       outline:3px solid rgba(11,95,255,0.14);
       outline-offset:3px;
     }
-    .btn-link:active{transform:translateY(1px)}
+    .link-row{
+      display:flex;
+      gap:12px;
+      width:100%;
+      max-width:420px;
+    }
+    /* On small screens keep stacked; on larger screens show two buttons side-by-side */
+    @media (min-width:560px){
+      .actions{flex-direction:column}
+      .link-row{flex-direction:row}
+      .link-btn{width:100%}
+    }
 
     footer{
-      margin-top:20px;
-      text-align:center;
+      margin-top:22px;
       color:var(--muted);
       font-size:0.85rem;
     }
 
-    /* Responsive tweaks */
-    @media (min-width:640px){
-      .header{flex-direction:row; text-align:left; justify-content:flex-start}
-      h1{font-size:1.5rem}
-      .site{padding:28px}
+    @media (min-width:760px){
+      h1{font-size:1.6rem}
+      .logo{width:160px;height:160px;margin-bottom:22px}
     }
 
-    @media (min-width:960px){
-      body{padding:40px}
-      .site{padding:36px}
-    }
-
-    /* Respect reduced motion */
     @media (prefers-reduced-motion:reduce){
-      .btn-link{transition:none}
+      .link-btn{transition:none}
     }
   </style>
 </head>
 <body>
-  <main class="site" role="main" aria-labelledby="title">
-    <header class="header">
-      <div class="logo-wrap" aria-hidden="true">
-        <img src="applogo.png" alt="Button Smasher logo">
-      </div>
-      <div class="title-copy">
-        <h1 id="title">Welcome to Button Smasher's official website!</h1>
-        <p class="lead">Fast, fun, and made with love by MASONNET and the whole Button Smasher development team.</p>
-      </div>
+  <main class="container" role="main" aria-labelledby="title">
+    <!-- Logo placed directly on the page background and centered -->
+    <figure class="logo" aria-hidden="true">
+      <img src="applogo.png" alt="Button Smasher logo">
+    </figure>
+
+    <header>
+      <h1 id="title">Welcome to Button Smasher's official website!</h1>
+      <p class="lead">Fast, fun, and made with care by MASONNET. Your feedback helps us improve the game — thanks for taking a moment.</p>
     </header>
 
-    <div class="cta" style="margin-top:22px;">
-      <a class="btn-link" href="https://survey.buttonsmasher.masonnet.org" role="button" aria-label="Open Button Smasher survey">
-        Button Smasher survey — help us improve the game
-      </a>
-    </div>
+    <nav class="actions" aria-label="Primary links">
+      <!-- MASONNET button above the survey button as requested -->
+      <div class="link-row" role="group" aria-label="External links">
+        <a class="link-btn secondary" href="https://masonnet.org" target="_blank" rel="noopener noreferrer" aria-label="Visit MASONNET homepage">MASONNET</a>
+      </div>
 
+      <div class="link-row" role="group" aria-label="Survey link">
+        <a class="link-btn" href="https://survey.buttonsmasher.masonnet.org" aria-label="Open Button Smasher survey">Button Smasher survey — help us improve the game</a>
+      </div>
+    </nav>
+
+    <footer>
+      <small>© <strong>MASONNET</strong> — Built for players and creators.</small>
+    </footer>
   </main>
 </body>
 </html>
