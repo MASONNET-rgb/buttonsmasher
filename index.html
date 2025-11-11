@@ -1,141 +1,135 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Button Smasher by MASONNET</title>
-  <link rel="icon" href="favicon.ico">
+  <link rel="icon" href="favicon.ico" />
   <style>
     :root{
-      --bg:#ffffff;
-      --accent:#0b5fff;
-      --text:#0b1220;
-      --muted:#55606e;
-      --radius:12px;
-      --max-width:900px;
+      --bg: #ffffff;
+      --accent: #0b5fff;
+      --text: #0b1220;
+      --muted: #55606e;
+      --max-width: 920px;
     }
 
     /* Reset */
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background:var(--bg);
       color:var(--text);
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
       display:flex;
-      align-items:flex-start;
+      align-items:center;
       justify-content:center;
       padding:28px 20px;
+      text-rendering:optimizeLegibility;
     }
 
+    /* Center all content vertically and horizontally */
     .container{
       width:100%;
       max-width:var(--max-width);
       text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
     }
 
-    /* Logo placed directly on the page background.
-       Added explicit bottom padding to prevent visual cropping on various devices. */
+    /* Logo sits directly on the page background (transparent). 
+       Add visible whitespace below the logo so it never visually touches the next element on any device. */
     .logo {
-      width:140px;
-      height:140px;
-      margin:0 auto;
+      width:160px;
+      height:auto;
       display:block;
-      padding-bottom:18px; /* extra whitespace below the image to avoid cut-off */
+      padding-bottom:18px; /* extra visible whitespace below image */
+      background:transparent; /* ensure no different background color */
     }
     .logo img{
       width:100%;
-      height:100%;
-      object-fit:contain;
+      height:auto;
       display:block;
-      /* Make sure the image is visually centered within its box */
-      vertical-align:middle;
+      object-fit:contain;      /* preserve full image without cropping */
+      image-rendering:optimizeQuality;
+      /* keep some internal whitespace in case PNG canvas includes tight cropping */
+      padding-bottom:6px;
+      background:transparent;
     }
 
-    header{
-      margin-bottom:18px;
-      margin-top:6px;
-    }
     h1{
       font-size:1.4rem;
-      margin:6px 0 8px;
+      line-height:1.25;
+      margin-top:2px;
+      margin-bottom:4px;
       font-weight:600;
     }
     p.lead{
       margin:0 auto;
-      max-width:68ch;
+      max-width:62ch;
       color:var(--muted);
       font-size:0.96rem;
     }
 
     .actions{
-      margin-top:18px;
+      width:100%;
       display:flex;
-      gap:12px;
       flex-direction:column;
       align-items:center;
-      justify-content:center;
+      gap:12px;
+      margin-top:6px;
     }
 
-    .link-btn{
+    .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       text-decoration:none;
-      border:0;
-      background:var(--accent);
-      color:#fff;
       padding:12px 18px;
       border-radius:10px;
+      color:#fff;
       font-size:1rem;
       cursor:pointer;
-      box-shadow:0 6px 14px rgba(11,95,255,0.12);
       width:100%;
       max-width:420px;
+      border:0;
     }
-    .link-btn.secondary{
+    .btn-primary{
+      background:var(--accent);
+      box-shadow:0 6px 14px rgba(11,95,255,0.12);
+    }
+    .btn-secondary{
       background:#0f1724;
       box-shadow:0 6px 14px rgba(6,9,15,0.06);
     }
-    .link-btn:focus{
+    .btn:focus{
       outline:3px solid rgba(11,95,255,0.14);
       outline-offset:3px;
     }
-    .link-row{
-      display:flex;
-      gap:12px;
-      width:100%;
-      max-width:420px;
-    }
-
-    @media (min-width:560px){
-      .actions{flex-direction:column}
-      .link-row{flex-direction:row}
-      .link-btn{width:100%}
-    }
 
     footer{
-      margin-top:22px;
+      margin-top:14px;
       color:var(--muted);
       font-size:0.85rem;
     }
 
-    @media (min-width:760px){
+    @media (min-width:640px){
       h1{font-size:1.6rem}
-      .logo{width:160px;height:160px;padding-bottom:22px}
+      .logo{width:180px;padding-bottom:22px}
     }
 
     @media (prefers-reduced-motion:reduce){
-      .link-btn{transition:none}
+      .btn{transition:none}
     }
   </style>
 </head>
 <body>
   <main class="container" role="main" aria-labelledby="title">
-    <!-- Logo placed directly on the page background and centered -->
     <figure class="logo" aria-hidden="true">
       <img src="applogo.png" alt="Button Smasher logo">
     </figure>
@@ -146,17 +140,12 @@
     </header>
 
     <nav class="actions" aria-label="Primary links">
-      <div class="link-row" role="group" aria-label="External links">
-        <a class="link-btn secondary" href="https://masonnet.org" target="_blank" rel="noopener noreferrer" aria-label="Visit MASONNET homepage">MASONNET</a>
-      </div>
-
-      <div class="link-row" role="group" aria-label="Survey link">
-        <a class="link-btn" href="https://survey.buttonsmasher.masonnet.org" aria-label="Open Button Smasher survey">Button Smasher survey — help us improve the game</a>
-      </div>
+      <a class="btn btn-secondary" href="https://masonnet.org" target="_blank" rel="noopener noreferrer" aria-label="Visit MASONNET homepage">MASONNET</a>
+      <a class="btn btn-primary" href="https://survey.buttonsmasher.masonnet.org" aria-label="Open Button Smasher survey">Button Smasher survey — help us improve the game</a>
     </nav>
 
     <footer>
-      <small>© <strong>MASONNET</strong> — Built for players and creators.</small>
+      <small>© <strong>MASONNET</strong> 2025</small>
     </footer>
   </main>
 </body>
