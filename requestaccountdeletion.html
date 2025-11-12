@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Button Smasher — Data Deletion Request</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Request deletion of your personal data from Button Smasher. Learn what we delete, required verification, and expected timelines." />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --card: #18181b;
+      --text: #e5e7eb;
+      --muted: #9aa0a6;
+      --accent: #43b581;
+      --danger: #ef4444;
+      --focus: #3b82f6;
+      --border: #2a2a31;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px; }
+    header { padding: 24px 0; }
+    header h1 { margin: 0 0 8px; font-size: 1.75rem; }
+    header p { margin: 0; color: var(--muted); }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0;
+    }
+    .grid { display: grid; gap: 16px; }
+    @media (min-width: 640px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 4px; }
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border);
+      background: #121217; color: var(--text);
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    .actions { display: flex; gap: 12px; align-items: center; margin-top: 16px; }
+    .btn {
+      border: none; border-radius: 10px; padding: 12px 16px; cursor: pointer; font-weight: 600;
+    }
+    .btn-primary { background: var(--accent); color: #0b0c0f; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .status { padding: 12px; border-radius: 10px; margin-top: 12px; display: none; }
+    .status.info { background: #102235; border: 1px solid #1f3b63; }
+    .status.success { background: #102d23; border: 1px solid #1f5c45; }
+    .status.error { background: #2a1414; border: 1px solid #6e2626; color: #ffb4b4; }
+    ul { margin: 8px 0; padding-left: 18px; }
+    a { color: var(--accent); }
+    .sr-only { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); white-space: nowrap; }
+    .req { color: var(--danger); margin-left: 4px; }
+    .captcha { margin-top: 8px; }
+    footer { color: var(--muted); font-size: 0.9rem; padding: 16px 0 40px; }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header aria-labelledby="page-title">
+      <h1 id="page-title">Request deletion of your data</h1>
+      <p>Submit a verified request to delete your personal data from Button Smasher.</p>
+    </header>
+
+    <section class="card" aria-labelledby="what-we-delete">
+      <h2 id="what-we-delete">What deletion covers</h2>
+      <ul>
+        <li><strong>Account identifiers:</strong> email/username associated with your Button Smasher account.</li>
+        <li><strong>Gameplay & device data:</strong> progress, preferences, and telemetry tied to your account.</li>
+        <li><strong>Support history:</strong> prior tickets and communications linked to your identity.</li>
+      </ul>
+      <p class="hint">We may retain minimal records required for security, legal compliance, or fraud prevention.</p>
+    </section>
+
+    <section class="card" aria-labelledby="how-it-works">
+      <h2 id="how-it-works">Process and timeline</h2>
+      <ul>
+        <li><strong>Verification:</strong> We confirm you own the account via email code or in-app sign-in.</li>
+        <li><strong>Response:</strong> We acknowledge within 7 days and complete deletion within 30 days in most cases.</li>
+        <li><strong>Confirmation:</strong> You’ll receive a confirmation once deletion is complete.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="request-form">
+      <h2 id="request-form">Submit your deletion request</h2>
+      <form id="delete-form" method="post" action="/api/data-deletion/request" novalidate>
+        <div class="grid grid-2">
+          <div>
+            <label for="email">Account email<span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-hint" />
+            <div id="email-hint" class="hint">Use the email associated with your Button Smasher account.</div>
+          </div>
+          <div>
+            <label for="region">Region or country<span class="req" aria-hidden="true">*</span></label>
+            <select id="region" name="region" required aria-describedby="region-hint">
+              <option value="">Select</option>
+              <option>United States</option>
+              <option>European Union (EEA)</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+            <div id="region-hint" class="hint">Helps apply the right legal basis and timelines.</div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="request-type">Request type<span class="req" aria-hidden="true">*</span></label>
+            <select id="request-type" name="requestType" required>
+              <option value="">Select</option>
+              <option value="delete-all">Delete all personal data and close my account</option>
+              <option value="delete-specific">Delete specific data categories</option>
+            </select>
+          </div>
+
+          <div id="specific-section" hidden>
+            <label for="specific-data">Specify data to delete</label>
+            <textarea id="specific-data" name="specificData" placeholder="e.g., gameplay history, telemetry logs, support tickets"></textarea>
+          </div>
+
+          <div>
+            <label for="user-id">User ID or username</label>
+            <input type="text" id="user-id" name="userId" autocomplete="username" placeholder="Optional but recommended" />
+            <div class="hint">Found in-app under Settings → Account.</div>
+          </div>
+
+          <div>
+            <label for="reason">Reason (optional)</label>
+            <textarea id="reason" name="reason" placeholder="Share context to help us improve (optional)"></textarea>
+          </div>
+
+          <fieldset class="card" style="margin:0; padding:12px;" aria-labelledby="verification">
+            <legend id="verification">Verification</legend>
+            <p class="hint">We’ll send a one-time code to your account email or ask you to confirm in-app.</p>
+          </fieldset>
+
+          <div class="captcha" aria-live="polite">
+            <!-- Replace with your captcha widget -->
+            <div id="captcha-placeholder" class="hint">Captcha is required to prevent automated abuse.</div>
+          </div>
+
+          <div>
+            <input type="checkbox" id="confirm-close" name="confirmClose" value="yes" />
+            <label for="confirm-close">I understand my account will be closed if all data is deleted.</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary" aria-label="Submit deletion request">Submit request</button>
+          <button type="button" class="btn btn-secondary" id="save-draft">Save draft</button>
+        </div>
+
+        <div id="form-status" class="status info" role="status" aria-live="assertive">
+          Preparing your request…
+        </div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="need-help">
+      <h2 id="need-help">Need help or alternative methods</h2>
+      <p>If you can’t access the form, you can email our support team from your account email with the subject “Data Deletion Request.”</p>
+      <ul>
+        <li><strong>Email:</strong> support@buttonsmasher.app</li>
+        <li><strong>Required:</strong> Account email, region, and whether you want full deletion or specific categories.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="policy">
+      <h2 id="policy">Policy and retention</h2>
+      <p>We delete your personal data upon verified request, except where retention is required by law or for security and fraud prevention. Aggregate, non-identifiable analytics may be retained.</p>
+      <p class="hint">See our <a href="/privacy">Privacy Policy</a> for details on data categories and retention.</p>
+    </section>
+
+    <footer>
+      Button Smasher © <span id="year"></span>. This page is for data deletion requests only. For general support, visit <a href="/support">Support</a>.
+    </footer>
+  </div>
+
+  <script>
+    // Accessibility & behavior: conditional fields, draft saving, and submission status
+    const requestTypeEl = document.getElementById('request-type');
+    const specificSection = document.getElementById('specific-section');
+    const form = document.getElementById('delete-form');
+    const statusEl = document.getElementById('form-status');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    requestTypeEl.addEventListener('change', () => {
+      const showSpecific = requestTypeEl.value === 'delete-specific';
+      specificSection.hidden = !showSpecific;
+    });
+
+    // Simple client-side draft save
+    document.getElementById('save-draft').addEventListener('click', () => {
+      const data = Object.fromEntries(new FormData(form));
+      localStorage.setItem('bs-delete-draft', JSON.stringify(data));
+      showStatus('Draft saved on this device.', 'success');
+    });
+
+    // Load draft if present
+    (function loadDraft() {
+      try {
+        const raw = localStorage.getItem('bs-delete-draft');
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        for (const [k, v] of Object.entries(data)) {
+          const el = form.elements.namedItem(k);
+          if (!el) continue;
+          if (el.type === 'checkbox') el.checked = v === 'yes' || v === true;
+          else el.value = v;
+        }
+        // Sync visibility for specific section
+        if (data.requestType === 'delete-specific') specificSection.hidden = false;
+      } catch {}
+    })();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showStatus('Submitting your request…', 'info');
+
+      // Basic client-side validation
+      const email = form.email.value.trim();
+      const region = form.region.value.trim();
+      const requestType = form.requestType.value.trim();
+      if (!email || !region || !requestType) {
+        showStatus('Please complete required fields: account email, region, and request type.', 'error');
+        return;
+      }
+
+      try {
+        const payload = Object.fromEntries(new FormData(form));
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'include'
+        });
+        if (!res.ok) throw new Error('Network error');
+        const json = await res.json();
+        if (json.verification === 'email') {
+          showStatus('Check your inbox for a verification code to confirm deletion.', 'success');
+        } else if (json.verification === 'in-app') {
+          showStatus('Open Button Smasher → Settings → Requests to confirm deletion.', 'success');
+        } else {
+          showStatus('Request received. We’ll follow up with verification shortly.', 'success');
+        }
+      } catch (err) {
+        showStatus('We couldn’t submit your request. Please try again or email support@buttonsmasher.app.', 'error');
+      }
+    });
+
+    function showStatus(message, type) {
+      statusEl.textContent = message;
+      statusEl.className = 'status ' + type;
+      statusEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
