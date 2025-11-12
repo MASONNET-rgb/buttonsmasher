@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Button Smasher — Delete my account and data</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Request permanent deletion of your Button Smasher account and all personal data." />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root{
+      --bg:#0b0c0f; --card:#121217; --text:#e6eef3; --muted:#98a3ad;
+      --accent:#36b37e; --danger:#ef4444; --border:#1f2226; --focus:#3b82f6;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#08090b 0%, #0f1113 100%);color:var(--text);line-height:1.5}
+    .wrap{max-width:820px;margin:28px auto;padding:20px}
+    header h1{margin:0 0 6px;font-size:1.6rem}
+    header p{margin:0;color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:18px}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    .hint{color:var(--muted);font-size:0.93rem;margin-top:6px}
+    input[type="text"], input[type="email"], textarea, select {
+      width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0b0c0f;color:var(--text);
+      outline-offset:3px;
+    }
+    textarea{min-height:120px;resize:vertical}
+    .grid{display:grid;gap:12px}
+    @media(min-width:700px){.grid-2{grid-template-columns:1fr 1fr}}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:12px}
+    .btn{padding:11px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+    .primary{background:var(--accent);color:#061014}
+    .secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .danger{background:transparent;border:1px solid var(--danger);color:var(--danger)}
+    .status{display:none;padding:10px;border-radius:10px;margin-top:12px}
+    .status.info{background:#0f1a22;border:1px solid #1e3942;color:var(--muted)}
+    .status.success{background:#082410;border:1px solid #174b2c;color:#bdeac9}
+    .status.error{background:#241313;border:1px solid #622a2a;color:#ffc6c6}
+    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    footer{color:var(--muted);font-size:0.9rem;margin-top:18px}
+    .req{color:var(--danger);margin-left:6px}
+    fieldset{border:1px dashed var(--border);padding:12px;border-radius:8px}
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <header aria-labelledby="page-title">
+      <h1 id="page-title">Delete my account and all data</h1>
+      <p>Request permanent deletion of your Button Smasher account and all personal data tied to it. We verify ownership before deleting.</p>
+    </header>
+
+    <section class="card" aria-labelledby="what">
+      <h2 id="what">What this request does</h2>
+      <ul>
+        <li><strong>Deletes:</strong> account identifiers (email, username), gameplay progress, preferences, telemetry tied to your account, support history, and linked device data.</li>
+        <li><strong>Retains:</strong> minimal, non-identifying audit records only if required for legal compliance or fraud prevention.</li>
+      </ul>
+      <p class="hint">If you request deletion we will close your account and remove personal data; deletion is irreversible.</p>
+    </section>
+
+    <section class="card" aria-labelledby="request">
+      <h2 id="request">Request deletion — provide your account information</h2>
+
+      <form id="deleteForm" method="post" action="/api/data-deletion/request" novalidate>
+        <div class="grid grid-2">
+          <div>
+            <label for="email">Account email <span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="emailHelp" />
+            <div id="emailHelp" class="hint">Use the email associated with your Button Smasher account.</div>
+          </div>
+
+          <div>
+            <label for="userId">User ID or username</label>
+            <input type="text" id="userId" name="userId" autocomplete="username" placeholder="Optional but helps speed verification" />
+            <div class="hint">You can find this in Settings → Account in the app.</div>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:12px">
+          <div>
+            <label for="region">Region or country <span class="req" aria-hidden="true">*</span></label>
+            <select id="region" name="region" required>
+              <option value="">Select region</option>
+              <option>United States</option>
+              <option>European Union (EEA)</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="confirmDelete">Confirm deletion <span class="req" aria-hidden="true">*</span></label>
+            <select id="confirmDelete" name="confirmDelete" required aria-describedby="confirmHelp">
+              <option value="">Select</option>
+              <option value="delete_all">I request deletion of all my account data and account closure</option>
+            </select>
+            <div id="confirmHelp" class="hint">Selecting this will permanently delete your account and all associated data after verification.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="grid">
+          <div>
+            <label for="reason">Reason (optional)</label>
+            <textarea id="reason" name="reason" placeholder="Optional: Tell us why you want your data deleted"></textarea>
+          </div>
+
+          <fieldset aria-labelledby="verificationLegend">
+            <legend id="verificationLegend">Preferred verification method</legend>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <label style="font-weight:600"><input type="radio" name="verification" value="in_app" checked /> In-app confirmation (recommended)</label>
+              <label style="font-weight:600"><input type="radio" name="verification" value="email_otp" /> Email one-time code</label>
+            </div>
+            <div class="hint">If you choose In-app we’ll ask you to confirm inside the logged-in app. Email OTP sends a code to your account email.</div>
+          </fieldset>
+
+          <div aria-live="polite">
+            <!-- PLACEHOLDER: Replace this with your captcha widget (reCAPTCHA/hCaptcha) -->
+            <div id="captcha" class="hint">Captcha required to prevent automated abuse</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label><input type="checkbox" id="ack" name="ack" required /> I understand this will permanently delete my account and data</label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary" aria-label="Submit deletion request">Submit deletion request</button>
+          <button type="button" id="saveDraft" class="btn secondary">Save draft locally</button>
+          <button type="button" id="clearDraft" class="btn danger">Clear draft</button>
+        </div>
+
+        <div id="status" class="status info" role="status" aria-live="assertive">Fill required fields and submit to start the verification process.</div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="timeline">
+      <h2 id="timeline">Verification, timeline, and confirmation</h2>
+      <ul>
+        <li><strong>Acknowledgement:</strong> We send an acknowledgement within 7 days.</li>
+        <li><strong>Verification:</strong> Verify via in-app or email OTP to confirm ownership.</li>
+        <li><strong>Deletion window:</strong> Deletion completes within 30 days of verification in most cases; we’ll notify you when finished.</li>
+      </ul>
+      <p class="hint">Some records may be retained only as required by law or for fraud prevention, and will be minimized and isolated from personal identifiers.</p>
+    </section>
+
+    <section class="card" aria-labelledby="alt">
+      <h2 id="alt">Alternate submission</h2>
+      <p>If you cannot use this form, email our support team from your account email with the subject line: <strong>Data Deletion Request</strong> and include your account email and user ID.</p>
+    </section>
+
+    <footer>
+      Button Smasher — Data deletion requests. For general support, visit <a href="/support" style="color:var(--accent)">Support</a>.
+    </footer>
+  </main>
+
+  <script>
+    (function(){
+      const form = document.getElementById('deleteForm');
+      const status = document.getElementById('status');
+      const saveDraftBtn = document.getElementById('saveDraft');
+      const clearDraftBtn = document.getElementById('clearDraft');
+      const draftKey = 'bs_delete_all_draft_v1';
+
+      // helper to show status
+      function show(msg, cls='info'){ status.textContent = msg; status.className = 'status ' + cls; status.style.display = 'block'; }
+
+      // Load draft
+      try {
+        const raw = localStorage.getItem(draftKey);
+        if(raw){
+          const data = JSON.parse(raw);
+          for(const k in data){
+            const el = form.elements.namedItem(k);
+            if(!el) continue;
+            if(el.type === 'checkbox') el.checked = data[k] === true || data[k] === 'on';
+            else if(el.type === 'radio'){
+              if(el.value === data[k]) el.checked = true;
+            } else el.value = data[k];
+          }
+          show('Loaded saved draft from this device.', 'info');
+        }
+      } catch(e){}
+
+      // Save draft
+      saveDraftBtn.addEventListener('click', () => {
+        const fd = new FormData(form);
+        const obj = {};
+        for(const [k,v] of fd.entries()){ obj[k] = v; }
+        // capture checkbox state explicitly
+        obj.ack = form.ack.checked;
+        localStorage.setItem(draftKey, JSON.stringify(obj));
+        show('Draft saved locally on this device.', 'success');
+      });
+
+      clearDraftBtn.addEventListener('click', ()=> {
+        localStorage.removeItem(draftKey);
+        form.reset();
+        show('Draft cleared.', 'info');
+      });
+
+      // Submit handler
+      form.addEventListener('submit', async (e)=> {
+        e.preventDefault();
+        show('Validating and submitting…', 'info');
+
+        // client-side required validation
+        const email = form.email.value.trim();
+        const region = form.region.value.trim();
+        const confirm = form.confirmDelete.value.trim();
+        const ack = form.ack.checked;
+        if(!email || !region || !confirm || !ack){
+          show('Please complete required fields and confirm acknowledgment.', 'error');
+          return;
+        }
+
+        // Build payload
+        const payload = {};
+        new FormData(form).forEach((v,k) => payload[k]=v);
+        payload.ack = ack;
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(payload)
+          });
+          if(!res.ok) throw new Error('Network response error');
+          const json = await res.json();
+          // Expect backend to return JSON with { ticketId, verification: "email_otp"|"in_app"|..., message }
+          if(json.verification === 'email_otp'){
+            show('Request received. Check your email for a one-time verification code.', 'success');
+          } else if(json.verification === 'in_app'){
+            show('Request received. Confirm the request inside the Button Smasher app to proceed.', 'success');
+          } else {
+            show(json.message || 'Request received. We will follow up with verification instructions.', 'success');
+          }
+        } catch(err){
+          show('Unable to submit request. Try again or email support from your account email.', 'error');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
