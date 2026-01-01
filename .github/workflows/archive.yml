@@ -1,0 +1,257 @@
+name: Archive site hourly
+
+# Run hourly (UTC) and allow manual runs
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour (UTC)
+  workflow_dispatch:
+
+concurrency:
+  group: archive-site
+  cancel-in-progress: true
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print runner info
+        run: |
+          echo "Runner: $(hostname)"
+          date -u
+
+      - name: DNS check - web.archive.org and targets
+        run: |
+          set -euo pipefail
+          TARGETS=("masonnet.org" "www.masonnet.org")
+          echo "Checking DNS for web.archive.org..."
+          if getent hosts web.archive.org >/dev/null 2>&1; then
+            echo "DNS OK: web.archive.org resolves"
+          else
+            echo "::error::DNS lookup failed for web.archive.org"
+            if command -v nslookup >/dev/null 2>&1; then
+              nslookup web.archive.org || true
+            fi
+            exit 1
+          fi
+
+          echo "Checking DNS for each target..."
+          for t in "${TARGETS[@]}"; do
+            if getent hosts "$t" >/dev/null 2>&1; then
+              echo "DNS OK: $t resolves"
+            else
+              echo "::error::DNS lookup failed for $t"
+              if command -v nslookup >/dev/null 2>&1; then
+                nslookup "$t" || true
+              fi
+              exit 1
+            fi
+          done
+
+      - name: Outbound HTTP connectivity check
+        run: |
+          set -euo pipefail
+          # Use a very small GET to example.com to verify outbound HTTPS
+          if curl -I --silent --show-error --max-time 10 https://example.com >/dev/null 2>&1; then
+            echo "Outbound HTTP connectivity OK"
+          else
+            echo "::error::Cannot reach external internet (example.com). Aborting."
+            echo "Routing table:"
+            ip route || true
+            echo "Nameservers:"
+            cat /etc/resolv.conf || true
+            exit 1
+          fi
+
+      - name: Archive the sites (retries, headers captured)
+        env:
+          SAVE_BASE: "https://web.archive.org/save"
+        run: |
+          set -euo pipefail
+          TARGETS=("https://masonnet.org" "https://www.masonnet.org")
+          ATTEMPTS=4
+          BASE_SLEEP=8       # base seconds multiplied by attempt index
+          PER_TARGET_PAUSE=6 # pause between targets to avoid bursts
+
+          for TARGET in "${TARGETS[@]}"; do
+            echo "==== Archiving: $TARGET ===="
+            TARGET_SAVE_URL="${SAVE_BASE}/${TARGET}"
+            HDRS="$(mktemp /tmp/archive_headers.XXXXXX)"
+            BODY="$(mktemp /tmp/archive_body.XXXXXX)"
+            success=false
+
+            for i in $(seq 1 $ATTEMPTS); do
+              echo "Attempt $i/$ATTEMPTS for $TARGET: POST to ${TARGET_SAVE_URL} ..."
+              # Capture headers (-D) and body (-o). Use --fail to treat HTTP >= 400 as failure.
+              if curl --fail --show-error --silent --max-time 120 --retry 3 --retry-delay 5 -D "$HDRS" -o "$BODY" "$TARGET_SAVE_URL"; then
+                http_code=$(awk 'NR==1{print $2}' "$HDRS" | tr -d '\r' || echo "")
+                echo "Archive request succeeded (HTTP ${http_code:-unknown})."
+                echo "Response headers (truncated):"
+                sed -n '1,200p' "$HDRS" || true
+                # Look for Location or Content-Location header that points to the capture
+                echo "Captured Location header(s):"
+                grep -i -E '^(Location|Content-Location):' "$HDRS" || echo "(none)"
+                echo "Response body (first 200 lines):"
+                sed -n '1,200p' "$BODY" || true
+                success=true
+                break
+              else
+                echo "::warning::Attempt $i failed for $TARGET."
+                if [ "$i" -lt "$ATTEMPTS" ]; then
+                  sleep_time=$(( BASE_SLEEP * i ))
+                  echo "Sleeping ${sleep_time}s before next attempt for $TARGET..."
+                  sleep "$sleep_time"
+                fi
+              fi
+            done
+
+            if [ "$success" = false ]; then
+              echo "::error::All ${ATTEMPTS} attempts failed for $TARGET."
+              if [ -s "$HDRS" ]; then
+                echo "Last headers (truncated):"
+                sed -n '1,200p' "$HDRS" || true
+              fi
+              if [ -s "$BODY" ]; then
+                echo "Last body (truncated):"
+                sed -n '1,200p' "$BODY" || true
+              fi
+              rm -f "$HDRS" "$BODY" || true
+              # Decide whether to fail the whole job or continue:
+              # - To fail the job when any target fails, replace the next line with: exit 1
+              echo "::warning::Continuing to next target despite failure."
+              continue
+            fi
+
+            rm -f "$HDRS" "$BODY" || true
+            echo "Pausing ${PER_TARGET_PAUSE}s before next target..."
+            sleep "$PER_TARGET_PAUSE"
+          done
+
+          echo "Archive step complete."name: Archive site hourly
+
+# Run hourly (UTC) and allow manual runs
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour (UTC)
+  workflow_dispatch:
+
+concurrency:
+  group: archive-site
+  cancel-in-progress: true
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print runner info
+        run: |
+          echo "Runner: $(hostname)"
+          date -u
+
+      - name: DNS check - web.archive.org and targets
+        run: |
+          set -euo pipefail
+          TARGETS=("masonnet.org" "www.masonnet.org")
+          echo "Checking DNS for web.archive.org..."
+          if getent hosts web.archive.org >/dev/null 2>&1; then
+            echo "DNS OK: web.archive.org resolves"
+          else
+            echo "::error::DNS lookup failed for web.archive.org"
+            if command -v nslookup >/dev/null 2>&1; then
+              nslookup web.archive.org || true
+            fi
+            exit 1
+          fi
+
+          echo "Checking DNS for each target..."
+          for t in "${TARGETS[@]}"; do
+            if getent hosts "$t" >/dev/null 2>&1; then
+              echo "DNS OK: $t resolves"
+            else
+              echo "::error::DNS lookup failed for $t"
+              if command -v nslookup >/dev/null 2>&1; then
+                nslookup "$t" || true
+              fi
+              exit 1
+            fi
+          done
+
+      - name: Outbound HTTP connectivity check
+        run: |
+          set -euo pipefail
+          # Use a very small GET to example.com to verify outbound HTTPS
+          if curl -I --silent --show-error --max-time 10 https://example.com >/dev/null 2>&1; then
+            echo "Outbound HTTP connectivity OK"
+          else
+            echo "::error::Cannot reach external internet (example.com). Aborting."
+            echo "Routing table:"
+            ip route || true
+            echo "Nameservers:"
+            cat /etc/resolv.conf || true
+            exit 1
+          fi
+
+      - name: Archive the sites (retries, headers captured)
+        env:
+          SAVE_BASE: "https://web.archive.org/save"
+        run: |
+          set -euo pipefail
+          TARGETS=("https://masonnet.org" "https://www.masonnet.org")
+          ATTEMPTS=4
+          BASE_SLEEP=8       # base seconds multiplied by attempt index
+          PER_TARGET_PAUSE=6 # pause between targets to avoid bursts
+
+          for TARGET in "${TARGETS[@]}"; do
+            echo "==== Archiving: $TARGET ===="
+            TARGET_SAVE_URL="${SAVE_BASE}/${TARGET}"
+            HDRS="$(mktemp /tmp/archive_headers.XXXXXX)"
+            BODY="$(mktemp /tmp/archive_body.XXXXXX)"
+            success=false
+
+            for i in $(seq 1 $ATTEMPTS); do
+              echo "Attempt $i/$ATTEMPTS for $TARGET: POST to ${TARGET_SAVE_URL} ..."
+              # Capture headers (-D) and body (-o). Use --fail to treat HTTP >= 400 as failure.
+              if curl --fail --show-error --silent --max-time 120 --retry 3 --retry-delay 5 -D "$HDRS" -o "$BODY" "$TARGET_SAVE_URL"; then
+                http_code=$(awk 'NR==1{print $2}' "$HDRS" | tr -d '\r' || echo "")
+                echo "Archive request succeeded (HTTP ${http_code:-unknown})."
+                echo "Response headers (truncated):"
+                sed -n '1,200p' "$HDRS" || true
+                # Look for Location or Content-Location header that points to the capture
+                echo "Captured Location header(s):"
+                grep -i -E '^(Location|Content-Location):' "$HDRS" || echo "(none)"
+                echo "Response body (first 200 lines):"
+                sed -n '1,200p' "$BODY" || true
+                success=true
+                break
+              else
+                echo "::warning::Attempt $i failed for $TARGET."
+                if [ "$i" -lt "$ATTEMPTS" ]; then
+                  sleep_time=$(( BASE_SLEEP * i ))
+                  echo "Sleeping ${sleep_time}s before next attempt for $TARGET..."
+                  sleep "$sleep_time"
+                fi
+              fi
+            done
+
+            if [ "$success" = false ]; then
+              echo "::error::All ${ATTEMPTS} attempts failed for $TARGET."
+              if [ -s "$HDRS" ]; then
+                echo "Last headers (truncated):"
+                sed -n '1,200p' "$HDRS" || true
+              fi
+              if [ -s "$BODY" ]; then
+                echo "Last body (truncated):"
+                sed -n '1,200p' "$BODY" || true
+              fi
+              rm -f "$HDRS" "$BODY" || true
+              # Decide whether to fail the whole job or continue:
+              # - To fail the job when any target fails, replace the next line with: exit 1
+              echo "::warning::Continuing to next target despite failure."
+              continue
+            fi
+
+            rm -f "$HDRS" "$BODY" || true
+            echo "Pausing ${PER_TARGET_PAUSE}s before next target..."
+            sleep "$PER_TARGET_PAUSE"
+          done
+
+          echo "Archive step complete."
