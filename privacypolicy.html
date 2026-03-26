@@ -6,43 +6,168 @@
   <title>Button Smasher — Privacy Policy</title>
   <meta name="robots" content="index,follow" />
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;color:#111;background:#fff;margin:24px;padding:0}
-    main{max-width:900px;margin:0 auto;padding:28px;border:1px solid #e6e6e6;border-radius:8px}
-    h1{font-size:20px;margin:0 0 8px}
-    h2{font-size:16px;margin:16px 0 8px}
-    p{margin:0 0 12px}
-    ul{margin:0 0 12px 20px}
-    code{background:#f4f4f4;padding:2px 6px;border-radius:4px;font-family:monospace}
-    .muted{color:#6b7280;font-size:13px}
-    footer{margin-top:20px;border-top:1px solid #eee;padding-top:14px;font-size:13px;color:#333}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;color:#1a1a1a;background:#fff;margin:24px;padding:0}
+    main{max-width:900px;margin:0 auto;padding:32px;border:1px solid #eee;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+    h1{font-size:26px;margin:0 0 16px;color:#000;border-bottom:2px solid #f0f0f0;padding-bottom:8px}
+    h2{font-size:20px;margin:28px 0 12px;color:#333;border-left:4px solid #0066cc;padding-left:12px}
+    h3{font-size:17px;margin:20px 0 8px;color:#444}
+    p{margin:0 0 16px}
+    ul{margin:0 0 16px 24px}
+    li{margin-bottom:8px}
+    table{width:100%;border-collapse:collapse;margin-bottom:16px}
+    th,td{text-align:left;padding:10px;border:1px solid #eee}
+    th{background:#f9f9f9}
+    code{background:#f4f4f4;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:0.9em}
+    .muted{color:#666;font-size:14px}
+    .highlight{background:#fff9c4;padding:2px 4px;border-radius:2px}
+    footer{margin-top:40px;border-top:1px solid #eee;padding-top:20px;font-size:13px;color:#777}
+    a{color:#0066cc;text-decoration:none}
+    a:hover{text-decoration:underline}
   </style>
 </head>
 <body>
   <main role="main" aria-labelledby="policy-title">
     <h1 id="policy-title">Button Smasher — Privacy Policy</h1>
-    <p class="muted">Effective date: 2026-3-21</p>
+    <p class="muted">Effective date: 2026-03-25 | Last updated: 2026-03-25</p>
 
-    <h2>Data Controller</h2>
-    <p>MASONNET / Button Smasher. Contact: <a href="mailto:masonnet@masonnet.org">masonnet@masonnet.org</a>.</p>
-
-    <h2>Summary & Compliance</h2>
-    <p>This policy is designed to comply with <strong>GDPR, CCPA, COPPA, LGPD,</strong> and the <strong>EU AI Act</strong>. We collect minimum personal data to provide account functionality and maintain app security.</p>
-
-    <h2>What information we collect</h2>
+    <h2>1. Introduction</h2>
+    <p>Button Smasher ("we", "us", "our"), developed by <strong>MASONNET</strong>, is committed to protecting your privacy. This comprehensive policy details how we collect, process, and protect your information. We comply with major global privacy frameworks, including:</p>
     <ul>
-      <li><strong>Username & Email</strong> for account management.</li>
-      <li><strong>Device identifiers & IP address</strong> strictly for moderation and ban enforcement.</li>
-      <li><strong>AI Conversation Content</strong> when interacting with ButtonAI for service troubleshooting and safety.</li>
+      <li><strong>GDPR:</strong> General Data Protection Regulation (EU/UK)</li>
+      <li><strong>CCPA/CPRA:</strong> California Consumer Privacy Act</li>
+      <li><strong>LGPD:</strong> Lei Geral de Proteção de Dados (Brazil)</li>
+      <li><strong>COPPA:</strong> Children's Online Privacy Protection Act (USA)</li>
+      <li><strong>EU AI Act:</strong> Transparency requirements for AI systems</li>
     </ul>
 
-    <h2>AI & Transparency</h2>
-    <p>Button Smasher uses AI services (e.g., Google Gemini). We do not sell your conversation data or use it for profiling. Internal access is limited to technical support and moderation to ensure compliance with the AI Act.</p>
+    <h2>2. Data Controller & Contact Information</h2>
+    <p>MASONNET acts as the Data Controller for the personal data processed through Button Smasher. For inquiries, data requests, or to contact our Data Protection Office:</p>
+    <p><strong>Email:</strong> <a href="mailto:masonnet@masonnet.org">masonnet@masonnet.org</a></p>
 
-    <h2>Your Rights</h2>
-    <p>You may request access, correction, or deletion of your data at any time by contacting us at the email provided above.</p>
+    <h2>3. Categories of Data We Collect</h2>
+    <p>We collect data in the following categories to provide and secure our services:</p>
+
+    <h3>A. Identifiers & Account Data</h3>
+    <ul>
+      <li><strong>Direct Identifiers:</strong> Username, Email address, and unique Account UID assigned via Firebase.</li>
+      <li><strong>Authentication Data:</strong> Login credentials and tokens managed securely by Firebase Auth.</li>
+    </ul>
+
+    <h3>B. Technical & Network Activity</h3>
+    <ul>
+      <li><strong>Device Information:</strong> Device model, OS version, hardware specifications, and unique device tokens (e.g., Android ID).</li>
+      <li><strong>Network Data:</strong> IP address (used for geolocation at a city/country level and security).</li>
+      <li><strong>Security Logs:</strong> Interaction timestamps and failure logs used for anti-cheat and moderation.</li>
+    </ul>
+
+    <h3>C. Gameplay & Commercial Data</h3>
+    <ul>
+      <li><strong>Stats:</strong> High scores, streak counts, play time, and unlocked achievements.</li>
+      <li><strong>Purchases:</strong> Transaction history and entitlements (processed via Google Play Billing). <span class="highlight">We never see or store your credit card numbers.</span></li>
+    </ul>
+
+    <h3>D. AI Interaction Content</h3>
+    <ul>
+      <li><strong>Conversations:</strong> Text prompts sent to <strong>ButtonAI</strong>. These are processed to generate responses but are not linked to your real-world identity for advertising purposes.</li>
+    </ul>
+
+    <h2>4. Purpose and Legal Bases for Processing</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Data Category</th>
+          <th>Purpose</th>
+          <th>Legal Basis (GDPR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Identifiers</td>
+          <td>Account sync, authentication</td>
+          <td>Contractual Necessity</td>
+        </tr>
+        <tr>
+          <td>Technical Data</td>
+          <td>Security, ban enforcement, anti-cheat</td>
+          <td>Legitimate Interest</td>
+        </tr>
+        <tr>
+          <td>Gameplay Stats</td>
+          <td>Leaderboards, social features</td>
+          <td>Contractual Necessity</td>
+        </tr>
+        <tr>
+          <td>Analytics</td>
+          <td>Improve app performance</td>
+          <td>Consent (Opt-in)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>5. AI Transparency & Safety (EU AI Act)</h2>
+    <p>Button Smasher utilizes Large Language Models (LLMs) provided by Google Gemini to power the "ButtonAI" feature.</p>
+    <ul>
+      <li><strong>User Notification:</strong> By using ButtonAI, you are interacting with an AI system.</li>
+      <li><strong>Data Usage:</strong> Conversations are used to provide the service and improve safety filters. We do not use your AI conversations to train base models or for behavioral advertising.</li>
+      <li><strong>Human Oversight:</strong> Critical moderation decisions (bans) involving AI content are subject to human review.</li>
+    </ul>
+
+    <h2>6. Third-Party Service Providers (Sub-processors)</h2>
+    <p>We share data with the following essential service providers:</p>
+    <ul>
+      <li><strong>Google LLC (Firebase):</strong> Used for hosting, real-time database, authentication, and push notifications.</li>
+      <li><strong>Google LLC (Gemini AI):</strong> Used to process AI chat interactions.</li>
+      <li><strong>Google LLC (Play Games Services):</strong> Used for achievements and social leaderboards.</li>
+      <li><strong>Google LLC (Analytics):</strong> If consented, used for anonymous usage tracking.</li>
+    </ul>
+
+    <h2>7. International Data Transfers</h2>
+    <p>Your data is primarily stored on servers located in the <strong>United States</strong>. For users in the EU or other regions with transfer restrictions, we rely on <strong>Standard Contractual Clauses (SCCs)</strong> approved by the European Commission and robust TLS encryption to ensure your data remains protected abroad.</p>
+
+    <h2>8. Data Retention & Deletion</h2>
+    <ul>
+      <li><strong>Active Accounts:</strong> Data is retained as long as your account is active.</li>
+      <li><strong>Deletion Requests:</strong> Upon a valid deletion request (via settings), personal data is purged from our active databases within 30 days.</li>
+      <li><strong>Backups:</strong> Residual data may remain in secure backups for up to an additional 60 days.</li>
+      <li><strong>Moderation:</strong> We may retain limited technical identifiers (hashes of IP/Device ID) indefinitely to enforce permanent bans and protect our community.</li>
+    </ul>
+
+    <h2>9. Your Global Privacy Rights</h2>
+    <p>Regardless of your location, Button Smasher provides the following rights:</p>
+    <ul>
+      <li><strong>Right to Access:</strong> Request a portable copy of your personal data.</li>
+      <li><strong>Right to Rectification:</strong> Correct inaccurate information in your profile.</li>
+      <li><strong>Right to Erasure:</strong> Delete your account and all associated data via the "Delete Account" button in settings.</li>
+      <li><strong>Right to Restrict Processing:</strong> Withdraw consent for analytics at any time.</li>
+      <li><strong>Right to Object:</strong> Object to our legitimate interest processing (e.g., security) if you believe your rights outweigh our interests.</li>
+    </ul>
+
+    <h2>10. United States State-Specific Disclosures</h2>
+    <h3>California (CCPA/CPRA)</h3>
+    <p>We do not "sell" or "share" (for cross-context behavioral advertising) your personal information as defined by California law. We do not use or disclose "Sensitive Personal Information" for purposes other than providing the service.</p>
+    <h3>Other States (VA, CO, CT, UT, TX)</h3>
+    <p>We honor your rights to access, delete, and opt-out of profiling/targeted advertising (though we do not engage in such activities).</p>
+
+    <h2>11. Children's Privacy (COPPA Compliance)</h2>
+    <p>Button Smasher includes an "Age Gate." Users under 13 (or the relevant age in your country) are restricted from certain features. We do not knowingly collect PII from children. If we discover accidental collection, we purge the data immediately. Parental controls are available in the app settings to further restrict gameplay and AI access.</p>
+
+    <h2>12. Data Security Measures</h2>
+    <p>We protect your data using:</p>
+    <ul>
+      <li><strong>Encryption:</strong> Data is encrypted at rest (AES-256) and in transit (TLS 1.2+).</li>
+      <li><strong>Firebase App Check:</strong> Prevents unauthorized clients from accessing our backend services.</li>
+      <li><strong>Access Controls:</strong> Only authorized MASONNET personnel have access to backend databases for support/moderation.</li>
+    </ul>
+
+    <h2>13. Third-Party Links</h2>
+    <p>Our app may contain links to external websites (e.g., our official site or support portal). We are not responsible for the privacy practices of external entities.</p>
+
+    <h2>14. Changes to this Policy</h2>
+    <p>We may update this policy to reflect changes in law or app features. Material changes will be notified via an in-app popup or email. Your continued use of the app after an update constitutes acceptance of the new terms.</p>
 
     <footer>
-      <p class="muted">This privacy policy is machine-readable and intended for global app store compliance.</p>
+      <p class="muted">You have the right to lodge a complaint with a Data Protection Authority if you believe our processing violates the law.</p>
+      <p class="muted">Contact: <a href="mailto:masonnet@masonnet.org">masonnet@masonnet.org</a></p>
     </footer>
   </main>
 </body>
