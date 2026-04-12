@@ -1,3 +1,9 @@
+1.9:
+- Major play store release, the first public release of Button Smasher!
+- Design improvements and polishing
+- Bug fixes, stability fixes, and security fixes
+- idk what else tbh
+
 1.8:
 - Added offline saving: Your progress (XP and time played) is now saved locally when offline and synced automatically when you go back online.
 - Added option to link Google Account in Account Settings, allowing you to sign in with either your email or Google account. If you created your account with sign in with Google, this feature will not be available to you.
