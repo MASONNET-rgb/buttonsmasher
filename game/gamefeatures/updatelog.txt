@@ -2,7 +2,8 @@
 - Major play store release, the first public release of Button Smasher!
 - Design improvements and polishing
 - Bug fixes, stability fixes, and security fixes
-- idk what else tbh
+- Added small haptics to the game to enhance the experience
+- Added privacy toggles for individual parts of profiles
 
 1.8:
 - Added offline saving: Your progress (XP and time played) is now saved locally when offline and synced automatically when you go back online.
